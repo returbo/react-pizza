@@ -2,12 +2,13 @@ import React from 'react';
 import classNames from "classnames";
 import PropTypes from 'prop-types';
 
-function PizzaBlock({ name, imageUrl, price, sizes, types}) {
+function PizzaBlock({ name, imageUrl, price, sizes, types }) {
   const availableTypes = ['тонкое', 'традиционное'];
   const availableSizes = [26, 30, 40];
 
   const [activeType, setActiveType] = React.useState(types[0]);
-  const [activeSize, setActiveSize ] = React.useState(sizes[0]);
+  const [activeSize, setActiveSize] = React.useState(sizes[0]);
+
 
   return (
     <div className="pizza-block">
@@ -20,8 +21,8 @@ function PizzaBlock({ name, imageUrl, price, sizes, types}) {
       <div className="pizza-block__selector">
         <ul>
           {
-            availableTypes.map((type, index) => 
-              <li 
+            availableTypes.map((type, index) =>
+              <li
                 className={classNames({
                   active: activeType === index,
                   disabled: !types.includes(index)
@@ -33,14 +34,14 @@ function PizzaBlock({ name, imageUrl, price, sizes, types}) {
           }
         </ul>
         <ul>
-          {availableSizes.map((size, index) => 
+          {availableSizes.map((size, index) =>
             <li
-            className={classNames({
-              active: activeSize === index,
-              disabled: !sizes.includes(size)
-            })}
-            onClick={() => setActiveSize(index)}
-            key={size}
+              className={classNames({
+                active: activeSize === index,
+                disabled: !sizes.includes(size)
+              })}
+              onClick={() => setActiveSize(index)}
+              key={size}
             >{size} см.
             </li>
           )}
@@ -76,6 +77,13 @@ PizzaBlock.propTypes = {
   types: PropTypes.arrayOf(PropTypes.number).isRequired,
   sizes: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
+
+PizzaBlock.defaultProps = {
+  name: '---',
+  price: 0,
+  types: [],
+  sizes: [],
+}
 
 export default PizzaBlock;
 

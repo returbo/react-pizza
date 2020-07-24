@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-const Categories = React.memo(function Categories({ items, onClickItem }) {
+const Categories = ({ categoryNames, onClickItem }) => {
     const [activeItem, setActiveItem] = React.useState(null);
 
     const onSelectItem = index => {
@@ -17,8 +17,8 @@ const Categories = React.memo(function Categories({ items, onClickItem }) {
                     className={activeItem === null ? 'active' : ''}
                 >Все
                 </li>
-                {items &&
-                    items.map((category, index) =>
+                {categoryNames &&
+                    categoryNames.map((category, index) =>
                         <li
                             className={activeItem === index ? 'active' : ''}
                             onClick={() => onSelectItem(index)}
@@ -30,6 +30,6 @@ const Categories = React.memo(function Categories({ items, onClickItem }) {
             </ul>
         </div>
     )
-})
+}
 
-export default Categories;
+export default React.memo(Categories);
