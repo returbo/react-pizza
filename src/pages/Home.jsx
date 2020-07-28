@@ -8,7 +8,7 @@ import {
   PizzaBlock,
   PizzaLoadingBlock, 
 } from "../components";
-import { setCategory } from "../redux/actions/filters";
+import { setCategory, setSortBy } from "../redux/actions/filters";
 
 const categoryNames = [
   'Мясные',
@@ -17,33 +17,42 @@ const categoryNames = [
   'Острые',
   'Закрытые'
 ];
-const sortItems = [
-  { name: 'популярности', type: "popular" },
-  { name: 'цене', type: "price" },
-  { name: 'алфавиту', type: "alphabet" }
+const sortOptions = [
+  { name: 'популярности', type: "popular", order: "desc" },
+  { name: 'цене', type: "price", order: "desc"  },
+  { name: 'алфавиту', type: "name", order: "asc"  }
 ];
 
 function Home() {
   const dispatch = useDispatch();
   const { items, isLoaded } = useSelector(({ pizzas }) => pizzas);
+  const { category, sortBy } = useSelector(({ filters }) => filters);
 
-  const onSelectCategory = React.useCallback((index) => {
+  const onSelectCategory = React.useCallback(index => {
     dispatch(setCategory(index));
   }, []);
 
-  React.useEffect(() => {
-    dispatch(fetchPizzas());
+  const onSelectSortBy = React.useCallback(type => {
+    dispatch(setSortBy(type));
   }, []);
+
+  React.useEffect(() => {
+    dispatch(fetchPizzas(sortBy, category));
+  }, [category, sortBy]);
+
 
   return (
     <div className="container">
       <div className="content__top">
         <Categories
-          onClickItem={onSelectCategory}
+          onClickCategory={onSelectCategory}
           categoryNames={categoryNames}
+          activeCategory={category}
         />
         <SortPopup
-          items={sortItems}
+          sortOptions={sortOptions}
+          onClickSortPopup={onSelectSortBy}
+          activeSortBy={sortBy.type}
         />
       </div>
       <h2 className="content__title">Все пиццы</h2>
@@ -54,7 +63,9 @@ function Home() {
             key={pizza.id}
             {...pizza}
           />)
-          : Array(12).fill(<PizzaLoadingBlock />)
+          : Array(12)
+            .fill(0)
+            .map((_, index) => <PizzaLoadingBlock key={index} />)
         }
       </div>
     </div>
