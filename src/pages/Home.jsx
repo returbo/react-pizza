@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector, useDispatch } from "react-redux";
 
 import { fetchPizzas } from "../redux/actions/pizzas";
+import { addPizzaToCart } from "../redux/actions/cart";
 import { 
   Categories, 
   SortPopup, 
@@ -36,6 +37,10 @@ function Home() {
     dispatch(setSortBy(type));
   }, []);
 
+  const handleAddPizzaToCart = obj => {
+    dispatch(addPizzaToCart(obj));
+  }
+
   React.useEffect(() => {
     dispatch(fetchPizzas(sortBy, category));
   }, [category, sortBy]);
@@ -60,6 +65,7 @@ function Home() {
         { isLoaded ?
           items.map(pizza => 
           <PizzaBlock 
+            onClickAddPizza={handleAddPizzaToCart}
             key={pizza.id}
             {...pizza}
           />)
