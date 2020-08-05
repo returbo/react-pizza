@@ -26,6 +26,8 @@ const sortOptions = [
 
 function Home() {
   const dispatch = useDispatch();
+
+  const cartItems = useSelector(({ cart }) => cart.items);
   const { items, isLoaded } = useSelector(({ pizzas }) => pizzas);
   const { category, sortBy } = useSelector(({ filters }) => filters);
 
@@ -67,6 +69,7 @@ function Home() {
           <PizzaBlock 
             onClickAddPizza={handleAddPizzaToCart}
             key={pizza.id}
+            addedCount={cartItems[pizza.id] && cartItems[pizza.id].items.length}
             {...pizza}
           />)
           : Array(12)
