@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { Button } from "../";
 
-function PizzaBlock({ 
+const PizzaBlock = ({ 
   id,
   name, 
   imageUrl, 
@@ -13,7 +13,7 @@ function PizzaBlock({
   types, 
   onClickAddPizza,
   addedCount
-}) {
+}) => {
   const availableTypes = ['тонкое', 'традиционное'];
   const availableSizes = [26, 30, 40];
 
